@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Voice of Customer 2026 · Caracol AM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Switzer:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:'Switzer',sans-serif;-webkit-font-smoothing:antialiased;letter-spacing:0.01em}
+:root{--cyan:#00E5CC;--red:#FF3B3B;--amber:#F5A623}
+body{background:radial-gradient(circle at 50% 50%,#0a0a0a,#000)}
+.deck{width:100%;height:100%;position:relative;background:#000}
+.deck::before{content:"";position:absolute;width:200%;height:200%;top:-50%;left:-50%;background:radial-gradient(circle at 20% 30%,rgba(0,229,204,0.07) 0%,transparent 40%),radial-gradient(circle at 80% 70%,rgba(0,229,204,0.05) 0%,transparent 40%);animation:mesh-float 20s ease-in-out infinite alternate;z-index:0;pointer-events:none}
+.deck::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:0.06;pointer-events:none;z-index:1}
+@keyframes mesh-float{0%{transform:translate(0,0) rotate(0deg)}100%{transform:translate(5%,5%) rotate(5deg)}}
+.slide{position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%;display:flex;flex-direction:column;justify-content:flex-start;padding:0 52px 100px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;visibility:hidden;background:#000;scroll-behavior:smooth}
+.slide.active{visibility:visible}
+.slide>*{position:relative;z-index:2}
+@media(min-width:600px){.slide{padding:0 72px 100px;max-width:920px}}
+.slide::before{content:"";position:absolute;width:40vw;height:40vw;background:#00E5CC;filter:blur(120px);opacity:0.04;bottom:-10vw;right:-10vw;border-radius:50%;pointer-events:none;z-index:0}
+.slide::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:#00E5CC;opacity:0.5;z-index:3}
+.slide-bg{background-size:cover!important;background-position:center!important}
+.overlay-dark{background-image:linear-gradient(rgba(0,0,0,0.72),rgba(0,0,0,0.92)),var(--bg-url)!important}
+#progress{position:fixed;top:0;left:0;height:2px;background:#00E5CC;z-index:200;transition:width 0.4s cubic-bezier(0.22,1,0.36,1);width:5%}
+#counter{position:fixed;top:18px;right:20px;font-size:10px;letter-spacing:0.18em;color:rgba(255,255,255,0.3);z-index:200;font-weight:400;text-transform:uppercase}
+.nav-btn{position:fixed;bottom:24px;z-index:200;width:44px;height:44px;border:1px solid rgba(255,255,255,0.2);background:transparent;color:rgba(255,255,255,0.6);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:'Switzer',sans-serif;transition:border-color 0.2s,color 0.2s}
+.nav-btn:hover{border-color:#00E5CC;color:#00E5CC}
+.nav-btn:disabled{opacity:0.15;pointer-events:none}
+#btnPrev{left:24px}
+#btnNext{right:24px}
+#hint{position:fixed;bottom:34px;left:50%;transform:translateX(-50%);font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.2);pointer-events:none;transition:opacity 0.5s;white-space:nowrap}
+.s-label{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:#00E5CC;font-weight:500;margin-bottom:20px}
+.cover-rule{width:32px;height:1px;background:#00E5CC;margin-bottom:28px}
+.h1{font-size:clamp(36px,9vw,68px);line-height:1.0;font-weight:300;letter-spacing:-0.02em;margin-bottom:16px}
+.h2{font-size:clamp(24px,5.5vw,44px);line-height:1.05;font-weight:300;letter-spacing:-0.02em;margin-bottom:14px}
+.h1 strong,.h2 strong{font-weight:600;color:#fff}
+.h1 .cyan,.h2 .cyan{color:#00E5CC;font-weight:300}
+.body{font-size:clamp(13px,1.9vw,15px);line-height:1.75;color:rgba(255,255,255,0.55);max-width:540px;font-weight:300}
+.body b{color:#fff;font-weight:500}
+.big-n{font-size:clamp(80px,20vw,150px);line-height:0.85;font-weight:300;letter-spacing:-0.03em;margin-bottom:18px}
+.big-n.cyan{color:#00E5CC;text-shadow:0 0 60px rgba(0,229,204,0.35),0 0 20px rgba(0,229,204,0.2)}
+.big-n.white{color:#fff;text-shadow:0 0 40px rgba(255,255,255,0.12)}
+.big-n.red{color:#FF3B3B;text-shadow:0 0 60px rgba(255,59,59,0.3)}
+.big-n.dim{color:rgba(255,255,255,0.15)}
+.glass{background:rgba(255,255,255,0.04);backdrop-filter:blur(15px) saturate(160%);border:1px solid rgba(255,255,255,0.1);border-radius:16px;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.stat-row{display:flex;gap:28px;margin-top:24px;flex-wrap:wrap;padding:22px 24px}
+.stat-n{font-size:34px;font-weight:300;letter-spacing:-0.02em;display:block;line-height:1}
+.stat-l{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(255,255,255,0.35);margin-top:5px;display:block;font-weight:400}
+.q-mark{font-size:60px;line-height:0.6;color:#00E5CC;margin-bottom:22px;display:block;font-weight:300}
+.q-text{font-size:clamp(17px,3.2vw,24px);line-height:1.55;font-weight:300;letter-spacing:-0.01em;margin-bottom:18px;color:rgba(255,255,255,0.88)}
+.q-cite{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.3)}
+.gap-list{display:flex;flex-direction:column;gap:12px;margin-top:18px}
+.gap-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.gap-name{font-size:12px;color:rgba(255,255,255,0.6);letter-spacing:0.04em;font-weight:400}
+.gap-n{font-size:13px;color:#00E5CC;font-weight:500;letter-spacing:0.02em}
+.gap-n.red{color:#FF3B3B}
+.gap-track{height:1px;background:rgba(255,255,255,0.1);position:relative}
+.gap-fill{position:absolute;top:0;left:0;height:1px;width:0;transition:width 1.2s cubic-bezier(0.22,1,0.36,1)}
+.c{background:#00E5CC}.w{background:rgba(255,255,255,0.35)}.r{background:#FF3B3B}
+.nps-row{display:flex;height:6px;gap:2px;margin:20px 0 10px;border-radius:1px;overflow:hidden}
+.nps-row .d{background:#FF3B3B;flex:0;transition:flex 1.4s cubic-bezier(0.22,1,0.36,1)}
+.nps-row .p{background:rgba(255,255,255,0.15);flex:0;transition:flex 1.4s cubic-bezier(0.22,1,0.36,1) 0.1s}
+.nps-row .pr{background:#00E5CC;flex:0;transition:flex 1.4s cubic-bezier(0.22,1,0.36,1) 0.2s}
+.nps-row.animated .d{flex:37}.nps-row.animated .p{flex:42}.nps-row.animated .pr{flex:21}
+.nps-labels{display:flex;justify-content:space-between;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.3)}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.tag{font-size:11px;padding:5px 12px;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);letter-spacing:0.06em;text-transform:uppercase;font-weight:400}
+.tag.cyan{border-color:rgba(0,229,204,0.4);color:#00E5CC}
+.tag.amber{border-color:rgba(245,166,35,0.4);color:#F5A623}
+.seg-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.seg-card{padding:16px;background:rgba(255,255,255,0.04);backdrop-filter:blur(15px);border:1px solid rgba(255,255,255,0.1);border-radius:12px;transition:border-color 0.25s,background 0.25s}
+.seg-card:hover{background:rgba(0,229,204,0.05);border-color:rgba(0,229,204,0.25)}
+.seg-role{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#00E5CC;margin-bottom:8px;font-weight:500}
+.seg-q{font-size:12px;color:rgba(255,255,255,0.55);line-height:1.6;margin-bottom:10px;font-style:italic;font-weight:300}
+.seg-tag{display:inline-block;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;padding:2px 7px;border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.35);margin:2px 2px 0 0}
+.pri-list{margin-top:18px;padding:6px 18px}
+.pri-row{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,0.06);opacity:0;transform:translateX(-12px);transition:opacity 0.5s,transform 0.5s}
+.pri-row:last-child{border-bottom:none}
+.pri-row.visible{opacity:1;transform:none}
+.pri-i{font-size:10px;color:rgba(255,255,255,0.2);width:18px;text-align:right;letter-spacing:0.05em}
+.pri-name{font-size:13px;color:rgba(255,255,255,0.75);flex:1;font-weight:400;letter-spacing:0.02em}
+.pri-val{font-size:13px;color:#00E5CC;font-weight:500;letter-spacing:0.04em;width:36px;text-align:right}
+.pri-dot{width:6px;height:6px;border-radius:50%;background:#00E5CC;flex-shrink:0}
+.about-grid{display:grid;grid-template-columns:1fr;gap:0;margin-top:16px;border-top:1px solid rgba(255,255,255,0.08)}
+.about-row{padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.08)}
+.about-row:last-child{border-bottom:none}
+.about-lbl{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#00E5CC;font-weight:500;margin-bottom:7px}
+.about-txt{font-size:12px;line-height:1.7;color:rgba(255,255,255,0.6);font-weight:300}
+.warn-box{background:rgba(245,166,35,0.06);border:1px solid rgba(245,166,35,0.25);border-radius:12px;padding:16px 18px;margin-bottom:20px}
+.warn-lbl{font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:#F5A623;font-weight:500;margin-bottom:8px}
+.warn-txt{font-size:12px;line-height:1.7;color:rgba(255,255,255,0.55);font-weight:300}
+.warn-txt b{color:#F5A623;font-weight:500}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.col-card{padding:14px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px}
+.col-lbl{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:#00E5CC;margin-bottom:10px;font-weight:500}
+.col-item{font-size:12px;color:rgba(255,255,255,0.6);line-height:1.7;padding:5px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+.col-item:last-child{border-bottom:none}
+.col-item span{color:#00E5CC;font-weight:500;float:right}
+.comp-table{margin-top:16px;display:flex;flex-direction:column;gap:8px}
+.comp-row{display:flex;align-items:center;gap:10px}
+.comp-name{font-size:12px;color:rgba(255,255,255,0.65);width:100px;flex-shrink:0}
+.comp-track{flex:1;height:1px;background:rgba(255,255,255,0.1);position:relative}
+.comp-fill{position:absolute;top:0;left:0;height:1px;width:0;background:#00E5CC;transition:width 1.2s cubic-bezier(0.22,1,0.36,1)}
+.comp-pct{font-size:11px;color:#00E5CC;font-weight:500;width:32px;text-align:right;flex-shrink:0}
+.concl-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:18px}
+.concl-card{padding:16px 18px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:12px;border-left:2px solid #00E5CC}
+.concl-title{font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#00E5CC;font-weight:500;margin-bottom:8px}
+.concl-txt{font-size:12px;line-height:1.7;color:rgba(255,255,255,0.55);font-weight:300}
+/* ── CTX TOGGLE ── */
+.ctx-toggle{display:inline-flex;align-items:center;gap:6px;margin-top:14px;font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:rgba(0,229,204,0.6);font-weight:500;cursor:pointer;border:none;background:none;padding:0;transition:color 0.2s;user-select:none}
+.ctx-toggle:hover{color:#00E5CC}
+.ctx-toggle .arrow{display:inline-block;width:14px;height:14px;border:1px solid rgba(0,229,204,0.4);border-radius:50%;font-size:8px;line-height:13px;text-align:center;transition:transform 0.3s,border-color 0.2s}
+.ctx-toggle.open .arrow{transform:rotate(180deg);border-color:#00E5CC}
+.ctx-panel{max-height:0;overflow:hidden;transition:max-height 0.4s ease,opacity 0.3s;opacity:0}
+.ctx-panel.open{max-height:2000px;opacity:1;overflow:visible}
+/* ── CHART PANEL ── */
+.ctx-chart-panel{margin-top:12px;padding:18px 16px 20px;background:rgba(255,255,255,0.03);border:1px solid rgba(0,229,204,0.15);border-radius:12px;overflow:visible}
+.ctx-chart-title{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(0,229,204,0.7);font-weight:500;margin-bottom:14px}
+.ctx-two{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:10px}
+@media(max-width:480px){.ctx-two{grid-template-columns:1fr}}
+.ctx-note{font-size:11px;line-height:1.7;color:rgba(255,255,255,0.32);font-weight:300;margin-top:10px;letter-spacing:0.01em;border-left:1px solid rgba(0,229,204,0.2);padding-left:12px}
+/* ── DONUT LEGEND ── */
+.donut-legend{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px}
+.d-leg{display:flex;align-items:center;gap:5px;font-size:9px;color:rgba(255,255,255,0.45);letter-spacing:0.04em}
+.d-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+/* ── USAGE BARS ── */
+.ub-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
+.ub-label{font-size:10px;color:rgba(255,255,255,0.45);width:72px;flex-shrink:0}
+.ub-track{flex:1;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.ub-fill{height:100%;border-radius:2px;transition:width 1.2s cubic-bezier(0.22,1,0.36,1)}
+.ub-val{font-size:10px;color:#00E5CC;font-weight:500;width:26px;text-align:right;flex-shrink:0}
+/* ── MINI STAT ── */
+.mini-stats{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:12px}
+.mini-n{font-size:22px;font-weight:300;letter-spacing:-0.02em;display:block;line-height:1}
+.mini-l{font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-top:3px;display:block}
+/* ── QUOTE MINI ── */
+.q-mini{font-size:11px;font-style:italic;color:rgba(255,255,255,0.4);line-height:1.6;padding:8px 10px 0;border-left:1px solid rgba(0,229,204,0.2);margin-bottom:2px}
+.q-mini-src{font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.2);padding-left:10px;margin-bottom:8px}
+/* ── CONTEXT TEXT (fallback) ── */
+.ctx-inner{font-size:11px;line-height:1.7;color:rgba(255,255,255,0.32);font-weight:300;margin-top:10px;letter-spacing:0.01em;border-left:1px solid rgba(0,229,204,0.2);padding-left:12px}
+/* ── ANIMATIONS ── */
+.slide.active .h1,.slide.active .h2,.slide.active .big-n{animation:text-reveal 0.9s cubic-bezier(0.22,1,0.36,1) forwards}
+@keyframes text-reveal{0%{opacity:0;transform:translateY(40px);filter:blur(15px)}100%{opacity:1;transform:translateY(0);filter:blur(0)}}
+.slide.active .s-label{animation:fade-up 0.6s 0.05s both}
+.slide.active .body{animation:fade-up 0.7s 0.15s both}
+.slide.active .stat-row{animation:fade-up 0.7s 0.2s both}
+.slide.active .gap-list{animation:fade-up 0.7s 0.2s both}
+.slide.active .tags{animation:fade-up 0.6s 0.25s both}
+.slide.active .seg-grid{animation:fade-up 0.7s 0.25s both}
+.slide.active .two-col{animation:fade-up 0.7s 0.2s both}
+.slide.active .comp-table{animation:fade-up 0.7s 0.2s both}
+.slide.active .concl-grid{animation:fade-up 0.7s 0.2s both}
+.slide.active .warn-box{animation:fade-up 0.6s 0.05s both}
+.slide.active .q-mark{animation:fade-up 0.5s 0.05s both}
+.slide.active .q-text{animation:fade-up 0.7s 0.15s both}
+.slide.active .q-cite{animation:fade-up 0.6s 0.3s both}
+.slide.active .ctx-toggle{animation:fade-up 0.5s 0.4s both}
+.slide.active .cover-rule{animation:rule-grow 0.6s both}
+@keyframes fade-up{0%{opacity:0;transform:translateY(20px)}100%{opacity:1;transform:none}}
+@keyframes rule-grow{0%{transform:scaleX(0);transform-origin:left}100%{transform:scaleX(1);transform-origin:left}}
+
+/* Give canvas a sensible max so charts don't explode */
+.ctx-chart-panel canvas{display:block;width:100%!important}
+
+/* Flex spacer — pushes slide content to bottom; shrinks when content overflows */
+.slide-spacer{flex:1 1 0;min-height:56px;pointer-events:none;position:relative;z-index:0}
+@media(min-width:600px){.slide-spacer{min-height:60px}}
+</style>
+</head>
+<body>
+<div id="progress"></div>
+<div id="counter">01 / 25</div>
+<div id="hint">Swipe or use arrows</div>
+<div class="deck" id="deck">
+
+<!-- 00 COVER -->
+<div class="slide slide-bg overlay-dark active" style="--bg-url:url('https://www.caracol-am.com/wp-content/uploads/2023/03/Caracol-Heron-AM-Hero.jpg')">
+<div class="slide-spacer"></div>
+  <div class="cover-rule"></div>
+  <div class="s-label">Caracol AM · Internal · May 2026</div>
+  <h1 class="h1"><strong>Voice of</strong><br><strong>Customer</strong><br><span class="cyan">2026</span></h1>
+  <p class="body" style="margin-top:16px">19 respondents · 14 companies · HERON AM platform</p>
+</div>
+
+<!-- 01 NOTE -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">01 · Important note</div>
+  <h2 class="h2">Before reading<br><span class="cyan">the data</span></h2>
+  <div class="warn-box">
+    <div class="warn-lbl">⚠ Read this first</div>
+    <p class="warn-txt">The data should be interpreted with care and always in the context of <b>real customer outcomes and commercial reality.</b> A meaningful portion of responses likely comes from customers under commercial pressure or who have not yet fully achieved expected ROI — this can naturally amplify frustration.</p>
+  </div>
+  <p class="body">Some signals around price sensitivity or feature prioritization may be skewed if viewed in isolation. Use this feedback as a guide to identify themes and opportunities, while grounding conclusions in validated customer success.</p>
+</div>
+
+<!-- 02 ABOUT -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">02 · About this report</div>
+  <h2 class="h2">What, why,<br><span class="cyan">how</span></h2>
+  <div class="about-grid">
+    <div class="about-row"><div class="about-lbl">What</div><p class="about-txt">The VoC analysis captures direct feedback from customers to understand experiences, expectations, needs, and pain points — identifying recurring themes that influence satisfaction, usability, and overall perception.</p></div>
+    <div class="about-row"><div class="about-lbl">Why</div><p class="about-txt">Understanding the customer is at the core of our strategy. VoC insights help us make more informed decisions — prioritizing improvements, addressing pain points, and aligning future developments with real customer needs.</p></div>
+    <div class="about-row"><div class="about-lbl">How</div><p class="about-txt">Anonymous survey collected February 2026. Both aggregated quantitative and qualitative insights reviewed for trends, patterns, and recurring themes.</p></div>
+  </div>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> Note on data</button>
+  <div class="ctx-panel">
+    <div class="ctx-inner">Overall averages may be slightly skewed due to a small number of extremely biased responses that do not fully reflect broader customer perception. These responses were retained to preserve sample size integrity and ensure all feedback was represented.</div>
+  </div>
+</div>
+
+<!-- 03 SAMPLE SIZE -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">03 · Sample size</div>
+  <h2 class="h2">Responses <strong>nearly<br>tripled</strong> this year</h2>
+  <div class="stat-row glass">
+    <div><span class="stat-n" style="color:#00E5CC"><span class="count-num" data-target="19">0</span></span><span class="stat-l">Respondents</span></div>
+    <div><span class="stat-n"><span class="count-num" data-target="14">0</span></span><span class="stat-l">Companies</span></div>
+    <div><span class="stat-n">3×</span><span class="stat-l">vs 2025</span></div>
+  </div>
+  <div class="tags" style="margin-top:20px">
+    <span class="tag cyan">Europe 63%</span><span class="tag cyan">NAFTA 21%</span><span class="tag">MEA 11%</span><span class="tag">Asia 5%</span>
+  </div>
+  <div class="tags" style="margin-top:7px">
+    <span class="tag">HERON 18</span><span class="tag">VIPRA 1</span>
+  </div>
+  <div class="tags" style="margin-top:7px">
+    <span class="tag">Creative 27%</span><span class="tag">Automotive 21%</span><span class="tag">Industrial 21%</span><span class="tag">Marine 11%</span>
+  </div>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> Full demographics breakdown</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">Who responded — roles, industries &amp; experience</div>
+      <div class="ctx-two">
+        <div>
+          <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:6px">By Role</div>
+          <canvas id="chart-role" height="140"></canvas>
+          <div class="donut-legend" id="leg-role"></div>
+        </div>
+        <div>
+          <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:6px">By Industry</div>
+          <canvas id="chart-ind" height="140"></canvas>
+          <div class="donut-legend" id="leg-ind"></div>
+        </div>
+      </div>
+      <div style="margin-top:14px">
+        <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:7px">LFAM Experience split</div>
+        <div style="display:flex;height:5px;border-radius:3px;overflow:hidden;gap:2px">
+          <div style="flex:47;background:rgba(255,255,255,0.18);border-radius:3px"></div>
+          <div style="flex:53;background:#00E5CC;border-radius:3px"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;margin-top:5px">
+          <span style="color:rgba(255,255,255,0.35)">47% — Under 3 years</span>
+          <span style="color:#00E5CC">53% — 3+ years</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 04 BRAND -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">04 · Brand awareness</div>
+  <h2 class="h2"><strong>CEAD leads.</strong><br><span class="cyan">Massivit rising.</span></h2>
+  <div class="comp-table">
+    <div class="comp-row"><span class="comp-name">CEAD</span><div class="comp-track"><div class="comp-fill" data-width="100%"></div></div><span class="comp-pct">58%</span></div>
+    <div class="comp-row"><span class="comp-name">Massivit</span><div class="comp-track"><div class="comp-fill" data-width="91%"></div></div><span class="comp-pct">53%</span></div>
+    <div class="comp-row"><span class="comp-name">Thermwood</span><div class="comp-track"><div class="comp-fill" data-width="64%"></div></div><span class="comp-pct">37%</span></div>
+    <div class="comp-row"><span class="comp-name">WASP</span><div class="comp-track"><div class="comp-fill" data-width="64%"></div></div><span class="comp-pct">37%</span></div>
+    <div class="comp-row"><span class="comp-name">Breton / Belotti / CMS</span><div class="comp-track"><div class="comp-fill" data-width="45%"></div></div><span class="comp-pct">26%</span></div>
+    <div class="comp-row"><span class="comp-name">REV3RD</span><div class="comp-track"><div class="comp-fill" data-width="28%"></div></div><span class="comp-pct">16%</span></div>
+  </div>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> Full competitor chart</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">All 13 competitors — % familiarity among respondents</div>
+      <canvas id="chart-brand" height="200"></canvas>
+      <div class="ctx-note">Massivit and Thermwood showed notable increases, now top 3. WASP declined slightly — respondent pool more globally distributed vs WASP's Italy concentration. Dyze Design dropped from #3 → #13. Awareness remains concentrated among a small group of key players.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 05 NPS -->
+<div class="slide slide-bg overlay-dark" style="--bg-url:url('https://www.caracol-am.com/wp-content/uploads/2022/11/Heron-AM-System.jpg')">
+<div class="slide-spacer"></div>
+  <div class="s-label">05 · Value perception</div>
+  <div class="big-n red"><span class="count-num" data-prefix="−" data-target="16" data-integer="1">0</span></div>
+  <p class="body">NPS target: <b>+20</b>. A 36-point gap. But support quality rates <b>5.2/7</b> — our relative strength.</p>
+  <div class="stat-row glass" style="margin-top:16px">
+    <div><span class="stat-n" style="color:rgba(255,255,255,0.7)"><span class="count-num" data-target="4.05" data-suffix="/7" data-decimals="2">0</span></span><span class="stat-l">Avg satisfaction</span></div>
+    <div><span class="stat-n" style="color:#00E5CC"><span class="count-num" data-target="5.2" data-suffix="/7" data-decimals="1">0</span></span><span class="stat-l">Support quality</span></div>
+    <div><span class="stat-n" style="color:#F5A623"><span class="count-num" data-target="4.2" data-suffix="/7" data-decimals="1">0</span></span><span class="stat-l">Price fairness</span></div>
+  </div>
+  <div class="nps-row" id="npsBar"><div class="d"></div><div class="p"></div><div class="pr"></div></div>
+  <div class="nps-labels"><span>37% Detractors</span><span>42% Passives</span><span>21% Promoters</span></div>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> NPS score distribution</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">Distribution — "How likely to recommend Caracol AM?" (0–10 scale)</div>
+      <canvas id="chart-nps-dist" height="150"></canvas>
+      <div class="ctx-two" style="margin-top:14px">
+        <div>
+          <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:6px">Segment split</div>
+          <canvas id="chart-nps-seg" height="130"></canvas>
+          <div class="donut-legend" id="leg-nps"></div>
+        </div>
+        <div>
+          <div class="mini-stats" style="margin-top:4px">
+            <div><span class="mini-n" style="color:#FF3B3B">−16</span><span class="mini-l">NPS score</span></div>
+            <div><span class="mini-n" style="color:rgba(255,255,255,0.2)">+20</span><span class="mini-l">Target</span></div>
+          </div>
+          <div class="ctx-note" style="margin-top:0">B2B industrial NPS benchmarks range −20 to +20 — our score sits within range. With 19 respondents a single Detractor shifts the score ~10 pts. This is directional, not definitive. Priority is trend — this is our starting point.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 06 PURCHASE DRIVERS -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">06 · Why customers chose us</div>
+  <h2 class="h2"><strong>Service</strong> beats<br>everything else</h2>
+  <div class="gap-list">
+    <div><div class="gap-top"><span class="gap-name">Comprehensive support</span><span class="gap-n">29%</span></div><div class="gap-track"><div class="gap-fill c" data-width="100%"></div></div></div>
+    <div><div class="gap-top"><span class="gap-name">Company reputation</span><span class="gap-n">17%</span></div><div class="gap-track"><div class="gap-fill c" data-width="59%"></div></div></div>
+    <div><div class="gap-top"><span class="gap-name">Material compatibility</span><span class="gap-n">14%</span></div><div class="gap-track"><div class="gap-fill w" data-width="48%"></div></div></div>
+    <div><div class="gap-top"><span class="gap-name">Transparent pricing</span><span class="gap-n">12%</span></div><div class="gap-track"><div class="gap-fill w" data-width="41%"></div></div></div>
+    <div><div class="gap-top"><span class="gap-name">Simple operations / Design flexibility</span><span class="gap-n">10%</span></div><div class="gap-track"><div class="gap-fill w" data-width="34%"></div></div></div>
+  </div>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> Drivers vs top improvement asks</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">Why they bought vs what they now want improved</div>
+      <canvas id="chart-drv-imp" height="180"></canvas>
+      <div class="ctx-note">Support ranks #1 above price and technical specs — a strong positioning signal not yet fully exploited in go-to-market. The gap between why customers buy (service) and what they want improved (automation) reveals a product maturity challenge, not a commercial one.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 07 IMPROVEMENTS -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">07 · What customers want next</div>
+  <h2 class="h2">Smart sensing.<br><span class="cyan">Top ask by far.</span></h2>
+  <div class="gap-list">
+    <div><div class="gap-top"><span class="gap-name">More smart-sensing &amp; self-adjusting process</span><span class="gap-n">25%</span></div><div class="gap-track"><div class="gap-fill c" data-width="100%"></div></div></div>
+    <div><div class="gap-top"><span class="gap-name">More design flexibility</span><span class="gap-n">16%</span></div><div class="gap-track"><div class="gap-fill c" data-width="64%"></div></div></div>
+    <div><div class="gap-top"><span class="gap-name">More user-friendly software</span><span class="gap-n">13%</span></div><div class="gap-track"><div class="gap-fill w" data-width="52%"></div></div></div>
+    <div><div class="gap-top"><span class="gap-name">Greater accuracy: time &amp; material estimates</span><span class="gap-n">13%</span></div><div class="gap-track"><div class="gap-fill w" data-width="52%"></div></div></div>
+    <div><div class="gap-top"><span class="gap-name">Faster printing speed</span><span class="gap-n">11%</span></div><div class="gap-track"><div class="gap-fill w" data-width="44%"></div></div></div>
+    <div><div class="gap-top"><span class="gap-name">Greater integration with other systems</span><span class="gap-n">11%</span></div><div class="gap-track"><div class="gap-fill w" data-width="44%"></div></div></div>
+  </div>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> Context</button>
+  <div class="ctx-panel">
+    <div class="ctx-inner">Smart-sensing and self-adjusting processes lead by a wide margin — this is essentially an Eidos roadmap request. The alignment between this ask and the Eidos development direction is a strong signal to communicate proactively to customers.</div>
+  </div>
+</div>
+
+<!-- 08 PRICE -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">08 · Price perception</div>
+  <h2 class="h2">A <strong>value gap</strong>,<br><span class="cyan">not a price problem</span></h2>
+  <div class="stat-row glass" style="margin-top:16px">
+    <div><span class="stat-n" style="color:rgba(255,255,255,0.5)"><span class="count-num" data-target="6.11" data-suffix="" data-decimals="2">0</span></span><span class="stat-l">LFAM price importance</span></div>
+    <div><span class="stat-n" style="color:#F5A623"><span class="count-num" data-target="4.21" data-suffix="" data-decimals="2">0</span></span><span class="stat-l">HERON price fairness</span></div>
+    <div><span class="stat-n" style="color:#FF3B3B">1.90</span><span class="stat-l">Avg gap</span></div>
+  </div>
+  <p class="body" style="margin-top:16px">47% prefer systems priced below <b>$175K</b> — but customers will always favor lower pricing. The real issue is the gap between expectations and perceived value.</p>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> Value gap chart &amp; root causes</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">Price importance vs perceived fairness (scale 1–7)</div>
+      <canvas id="chart-price" height="130"></canvas>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+        <div style="padding:10px;background:rgba(255,59,59,0.05);border:1px solid rgba(255,59,59,0.2);border-radius:8px">
+          <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#FF3B3B;margin-bottom:5px">Root causes</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.42);line-height:1.65">Customer fit misalignment · Legacy positioning · CNC automation expectations</div>
+        </div>
+        <div style="padding:10px;background:rgba(0,229,204,0.03);border:1px solid rgba(0,229,204,0.15);border-radius:8px">
+          <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#00E5CC;margin-bottom:5px">Opportunities</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.42);line-height:1.65">Refocus targeting · ROI &amp; TCO narratives · Value narrative strengthening</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 09 SYSTEM INTRO -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">09 · System experience</div>
+  <div class="big-n red"><span class="count-num" data-target="2.91" data-suffix="" data-decimals="2">0</span></div>
+  <h2 class="h2" style="font-size:clamp(18px,4vw,30px)">The <strong>reliability gap</strong>.<br>Our biggest problem.</h2>
+  <p class="body">Printer reliability &amp; lifetime scores 2.91 points below expectation — the highest gap across all system attributes. Average system gap: <b>2.20</b>.</p>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> All system dimensions</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">System performance — importance vs satisfaction across all dimensions</div>
+      <canvas id="chart-sys-full" height="200"></canvas>
+      <div style="display:flex;gap:12px;margin-top:8px">
+        <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:rgba(255,255,255,0.4)"><span style="display:inline-block;width:10px;height:2px;background:rgba(0,229,204,0.5);border-radius:1px"></span>Importance</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:rgba(255,255,255,0.4)"><span style="display:inline-block;width:10px;height:2px;background:rgba(255,59,59,0.7);border-radius:1px"></span>Satisfaction</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 10 SYSTEM GAPS -->
+<div class="slide slide-bg overlay-dark" style="--bg-url:url('https://www.caracol-am.com/wp-content/uploads/2023/05/LFAM-Extruder-Detail.jpg')">
+<div class="slide-spacer"></div>
+  <div class="s-label">10 · System gaps ranked</div>
+  <h2 class="h2" style="margin-bottom:4px">Importance vs<br><span class="cyan">satisfaction</span></h2>
+  <div class="gap-list">
+    <div><div class="gap-top"><span class="gap-name">Printer reliability &amp; lifetime</span><span class="gap-n">2.91</span></div><div class="gap-track"><div class="gap-fill c" data-width="100%"></div></div></div>
+    <div><div class="gap-top"><span class="gap-name">Design flexibility</span><span class="gap-n">2.78</span></div><div class="gap-track"><div class="gap-fill c" data-width="95%"></div></div></div>
+    <div><div class="gap-top"><span class="gap-name">Printed part quality</span><span class="gap-n">2.56</span></div><div class="gap-track"><div class="gap-fill c" data-width="88%"></div></div></div>
+    <div><div class="gap-top"><span class="gap-name">Repeatability</span><span class="gap-n">2.35</span></div><div class="gap-track"><div class="gap-fill w" data-width="81%"></div></div></div>
+    <div><div class="gap-top"><span class="gap-name">Post-processing / Ease of use</span><span class="gap-n">~1.8</span></div><div class="gap-track"><div class="gap-fill w" data-width="62%"></div></div></div>
+    <div><div class="gap-top"><span class="gap-name">Operator safety</span><span class="gap-n">1.10</span></div><div class="gap-track"><div class="gap-fill w" data-width="38%"></div></div></div>
+  </div>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> Usability &amp; operations detail</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">Usability &amp; operations — importance vs satisfaction (avg gap 1.53)</div>
+      <canvas id="chart-usab" height="160"></canvas>
+      <div class="ctx-note">Post-processing and ease of use are the biggest friction points (gap ~1.7–1.8). Operator safety: highest priority (6.1) but smallest gap (1.1) — performing closest to expectations. All categories show systemic underperformance rather than isolated issues.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 QUOTE RELIABILITY -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">11 · Customer voice · System</div>
+  <span class="q-mark">—</span>
+  <p class="q-text">We've had Heron for two years now, and you still can't explain why the extruder occasionally needs to be restarted.</p>
+  <p class="q-cite">Respondent — Italy, Automotive</p>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> More voices</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">Customer voices on system reliability</div>
+      <div class="q-mini">"Irregular material flow, signaling errors, material flow interruptions, improper material feeding, communication issues between extruder controller and robot, and prints that frequently stop around 70%."</div>
+      <div class="q-mini-src">Respondent — Turkey</div>
+      <div class="q-mini">"Support requests were very few in the latest 12 months due to good system reliability."</div>
+      <div class="q-mini-src">Respondent — Marine sector (positive outlier)</div>
+      <div class="q-mini">"The system should be more reliable and stable. Many features are still not implemented in the software."</div>
+      <div class="q-mini-src">Respondent — Decision Maker</div>
+      <div class="ctx-note">The gap reflects a consistency problem across the installed base, not a universal failure. The marine sector positive outlier shows what's possible at maturity.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 12 EIDOS -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">12 · Software · Eidos</div>
+  <div class="big-n red"><span class="count-num" data-target="2.72" data-suffix="" data-decimals="2">0</span></div>
+  <h2 class="h2" style="font-size:clamp(18px,4vw,30px)">Eidos: the <strong>largest<br>expectation gap</strong></h2>
+  <div class="stat-row glass" style="margin-top:14px">
+    <div><span class="stat-n" style="color:#FF3B3B">11/19</span><span class="stat-l">Raised issue ticket</span></div>
+    <div><span class="stat-n" style="color:#FF3B3B">64%</span><span class="stat-l">Companies affected</span></div>
+    <div><span class="stat-n" style="color:#F5A623">11/19</span><span class="stat-l">Asked how-to support</span></div>
+  </div>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> Software gap chart</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">Software capabilities — importance vs satisfaction (avg gap 2.72)</div>
+      <canvas id="chart-soft" height="170"></canvas>
+      <div style="display:flex;gap:12px;margin-top:8px">
+        <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:rgba(255,255,255,0.4)"><span style="display:inline-block;width:10px;height:2px;background:rgba(0,229,204,0.5);border-radius:1px"></span>Importance</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:rgba(255,255,255,0.4)"><span style="display:inline-block;width:10px;height:2px;background:rgba(255,59,59,0.7);border-radius:1px"></span>Satisfaction</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 13 QUOTE EIDOS -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">13 · Customer voice · Eidos</div>
+  <span class="q-mark">—</span>
+  <p class="q-text">Eidos needs a lot of work to be more user-friendly, less buggy, and more capable. Training and resources are lacking, especially when there are updates.</p>
+  <p class="q-cite">Respondent — USA</p>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> Top Eidos asks + more voices</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">Eidos requests — out of 19 respondents</div>
+      <canvas id="chart-eidos" height="120"></canvas>
+      <div style="margin-top:12px">
+        <div class="q-mini">"Really waiting for new version of EIDOS... promised when buying... start &amp; stop and flow rate management."</div>
+        <div class="q-mini-src">Respondent — Italy</div>
+        <div class="q-mini">"I would like the process to be more automated — not having to adjust RPM or temperatures by hand."</div>
+        <div class="q-mini-src">Respondent — Italy, Automotive</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 14 SUPPORT -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">14 · Scalability &amp; support</div>
+  <div class="big-n cyan"><span class="count-num" data-target="4.8" data-suffix="/7" data-decimals="1">0</span></div>
+  <h2 class="h2" style="font-size:clamp(18px,4vw,30px)">Support: our<br><strong>real competitive strength</strong></h2>
+  <div class="two-col">
+    <div class="col-card">
+      <div class="col-lbl">What's working</div>
+      <div class="col-item">Quality of support<span>5.4/7</span></div>
+      <div class="col-item">Effectiveness<span>5.4/7</span></div>
+      <div class="col-item">Timeliness<span>5.2/7</span></div>
+      <div class="col-item">Customer confidence<span>4.6/7</span></div>
+    </div>
+    <div class="col-card" style="border-color:rgba(255,59,59,0.2)">
+      <div class="col-lbl" style="color:#FF3B3B">What's not</div>
+      <div class="col-item" style="color:rgba(255,255,255,0.5)">Eidos &amp; extruder issues driving tickets</div>
+      <div class="col-item" style="color:rgba(255,255,255,0.5)">Slow/inconsistent resolution</div>
+      <div class="col-item" style="color:rgba(255,255,255,0.5)">Lack of ownership clarity</div>
+      <div class="col-item">Scalability gap<span style="color:#FF3B3B">1.9</span></div>
+    </div>
+  </div>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> Support &amp; scalability scores</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">Support + scalability dimensions — importance vs satisfaction</div>
+      <canvas id="chart-supp-scale" height="190"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- 15 QUOTE SUPPORT -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">15 · Customer voice · Support</div>
+  <span class="q-mark">—</span>
+  <p class="q-text">There are too many people to talk to and it's unclear who does what. The team is very knowledgeable and helpful — but sometimes it's still difficult to get answers quickly.</p>
+  <p class="q-cite">Respondent — Decision Maker</p>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> More voices — both sides</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">Support feedback — strengths and pain points</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#00E5CC;margin-bottom:6px">What's working</div>
+          <div class="q-mini">"Caracol team is very effective and helpful."</div>
+          <div class="q-mini-src">Decision Maker</div>
+          <div class="q-mini">"Very happy with the quality and response time."</div>
+          <div class="q-mini-src">Decision Maker</div>
+        </div>
+        <div>
+          <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#FF3B3B;margin-bottom:6px">Pain points</div>
+          <div class="q-mini">"Responses are slow, incomplete, sometimes contradictory."</div>
+          <div class="q-mini-src">Decision Maker</div>
+          <div class="q-mini">"Unclear who does what. Knowledgeable but slow to resolve."</div>
+          <div class="q-mini-src">Decision Maker</div>
+        </div>
+      </div>
+      <div class="ctx-note">The friction is not in the quality of support, but in routing and responsiveness. A clearer escalation structure could close this gap quickly.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 16 PRIORITY -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">16 · Priority analysis</div>
+  <h2 class="h2">Top 5.<br><span class="cyan">Both methods agree.</span></h2>
+  <div class="pri-list glass" id="priList">
+    <div class="pri-row" style="transition-delay:0.05s"><span class="pri-i">01</span><div class="pri-dot"></div><span class="pri-name">Printer reliability</span><span class="pri-val">2.91</span></div>
+    <div class="pri-row" style="transition-delay:0.15s"><span class="pri-i">02</span><div class="pri-dot"></div><span class="pri-name">Process monitoring</span><span class="pri-val">2.91</span></div>
+    <div class="pri-row" style="transition-delay:0.25s"><span class="pri-i">03</span><div class="pri-dot"></div><span class="pri-name">Design flexibility</span><span class="pri-val">2.78</span></div>
+    <div class="pri-row" style="transition-delay:0.35s"><span class="pri-i">04</span><div class="pri-dot" style="background:rgba(255,255,255,0.3)"></div><span class="pri-name">Part quality</span><span class="pri-val" style="color:rgba(255,255,255,0.4)">2.56</span></div>
+    <div class="pri-row" style="transition-delay:0.45s"><span class="pri-i">05</span><div class="pri-dot" style="background:rgba(255,255,255,0.3)"></div><span class="pri-name">Repeatability</span><span class="pri-val" style="color:rgba(255,255,255,0.4)">2.35</span></div>
+  </div>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> Full priority ranking + method</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">All factors ranked by absolute gap (importance − satisfaction)</div>
+      <canvas id="chart-priority" height="210"></canvas>
+      <div class="ctx-note">Two converging methods: (1) Absolute gap score; (2) Paired t-test at p&lt;0.05. All 5 top items statistically significant. Top 3 share virtually identical gap scores — treat as one cluster. Improving these areas directly increases NPS, product trust, and long-term adoption.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 17 USAGE -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">17 · Usage &amp; satisfaction</div>
+  <h2 class="h2">More usage,<br><span class="cyan">more satisfaction</span></h2>
+  <p class="body"><b>63%</b> use the machine under 180 hours per year. Those who print more rate every dimension significantly higher.</p>
+  <div class="stat-row glass">
+    <div><span class="stat-n" style="color:#FF3B3B"><span class="count-num" data-target="3.5" data-suffix="" data-decimals="1">0</span></span><span class="stat-l">Low-usage training sat.</span></div>
+    <div><span class="stat-n" style="color:#00E5CC"><span class="count-num" data-target="5.7" data-suffix="" data-decimals="1">0</span></span><span class="stat-l">High-usage training sat.</span></div>
+  </div>
+  <div class="stat-row glass" style="margin-top:10px">
+    <div><span class="stat-n" style="color:#FF3B3B"><span class="count-num" data-target="4.3" data-suffix="" data-decimals="1">0</span></span><span class="stat-l">Low-usage support sat.</span></div>
+    <div><span class="stat-n" style="color:#00E5CC"><span class="count-num" data-target="6.0" data-suffix="" data-decimals="1">0</span></span><span class="stat-l">High-usage support sat.</span></div>
+  </div>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> Usage cohort breakdown</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">Average satisfaction by runtime cohort (scale 1–7)</div>
+      <canvas id="chart-usage" height="140"></canvas>
+      <div style="margin-top:14px">
+        <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:8px">Usage distribution of respondents</div>
+        <div class="ub-row"><span class="ub-label">&lt;180h</span><div class="ub-track"><div class="ub-fill" data-w="63" style="background:#FF3B3B"></div></div><span class="ub-val" style="color:#FF3B3B">63%</span></div>
+        <div class="ub-row"><span class="ub-label">181–360h</span><div class="ub-track"><div class="ub-fill" data-w="11" style="background:#F5A623"></div></div><span class="ub-val" style="color:#F5A623">11%</span></div>
+        <div class="ub-row"><span class="ub-label">361–540h</span><div class="ub-track"><div class="ub-fill" data-w="16" style="background:#F5A623"></div></div><span class="ub-val" style="color:#F5A623">16%</span></div>
+        <div class="ub-row"><span class="ub-label">&gt;540h</span><div class="ub-track"><div class="ub-fill" data-w="10" style="background:#00E5CC"></div></div><span class="ub-val">10%</span></div>
+      </div>
+      <div class="ctx-note">Respondents who received the most support provided the lowest scores — the training gap is partly driven by perception. Lower-usage customers are still in the early learning phase; better onboarding is the key lever.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 18 SEGMENTS -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">18 · Decision makers vs users</div>
+  <h2 class="h2">Two <strong>different</strong><br>experiences</h2>
+  <div class="seg-grid">
+    <div class="seg-card">
+      <div class="seg-role">Decision Makers (n=15)</div>
+      <div class="seg-q">"Can this machine be trusted for long-term production and business growth?"</div>
+      <span class="seg-tag">ROI</span><span class="seg-tag">Reliability</span><span class="seg-tag">Forecasting</span>
+    </div>
+    <div class="seg-card">
+      <div class="seg-role">Technical Users (n=4)</div>
+      <div class="seg-q">"Can I operate this machine efficiently without constant intervention?"</div>
+      <span class="seg-tag">Automation</span><span class="seg-tag">Software</span><span class="seg-tag">Stability</span>
+    </div>
+  </div>
+  <div class="stat-row glass">
+    <div><span class="stat-n" style="color:rgba(255,255,255,0.45)"><span class="count-num" data-target="3.9" data-suffix="" data-decimals="1">0</span></span><span class="stat-l">DM satisfaction</span></div>
+    <div><span class="stat-n" style="color:#00E5CC"><span class="count-num" data-target="4.3" data-suffix="" data-decimals="1">0</span></span><span class="stat-l">User satisfaction</span></div>
+    <div><span class="stat-n" style="color:rgba(255,255,255,0.45)">6.3</span><span class="stat-l">DM NPS</span></div>
+    <div><span class="stat-n" style="color:#00E5CC">5.5</span><span class="stat-l">User NPS</span></div>
+  </div>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> Segment comparison chart</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">Decision makers vs technical users — key scores compared</div>
+      <canvas id="chart-seg" height="160"></canvas>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px">
+        <div style="padding:9px 11px;background:rgba(0,229,204,0.04);border:1px solid rgba(0,229,204,0.14);border-radius:8px">
+          <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#00E5CC;margin-bottom:4px">DMs want</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.42);line-height:1.6">Forecasting · Reporting · Reliability · ROI justification</div>
+        </div>
+        <div style="padding:9px 11px;background:rgba(245,166,35,0.04);border:1px solid rgba(245,166,35,0.14);border-radius:8px">
+          <div style="font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:#F5A623;margin-bottom:4px">Tech users want</div>
+          <div style="font-size:10px;color:rgba(255,255,255,0.42);line-height:1.6">Control · Automation · Stability · Better software guidance</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 19 MATERIALS -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="s-label">19 · Materials</div>
+  <div class="big-n cyan">17/19</div>
+  <h2 class="h2" style="font-size:clamp(18px,4vw,30px)">Customers <strong>already<br>buy from us</strong></h2>
+  <div class="two-col">
+    <div class="col-card">
+      <div class="col-lbl">Top purchased</div>
+      <div class="col-item">#1 rPETG GF</div>
+      <div class="col-item">#2 PETG Natural</div>
+      <div class="col-item">#3 ABS CF</div>
+      <div class="col-item">#4 PLA + NF · #5 PP GF</div>
+    </div>
+    <div class="col-card" style="border-color:rgba(255,59,59,0.2)">
+      <div class="col-lbl" style="color:#F5A623">Price sensitive</div>
+      <div class="col-item">PC-CF<span style="color:#F5A623">19.38 vs 14.65 €</span></div>
+      <div class="col-item">PEI<span style="color:#F5A623">50 vs 35 €</span></div>
+      <div class="col-item">ABS-CF<span style="color:#F5A623">15.86 vs 9.85 €</span></div>
+      <div class="col-item">PP-GF<span style="color:#F5A623">3.38 vs 1.60 €</span></div>
+    </div>
+  </div>
+  <button class="ctx-toggle" onclick="toggleCtx(this)"><span class="arrow">↓</span> Materials charts</button>
+  <div class="ctx-panel">
+    <div class="ctx-chart-panel">
+      <div class="ctx-chart-title">Materials — price gap &amp; "too expensive" flags</div>
+      <div class="ctx-two">
+        <div>
+          <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:6px">Actual vs desired price (€/kg)</div>
+          <canvas id="chart-mat-price" height="150"></canvas>
+        </div>
+        <div>
+          <div style="font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:6px">"Too expensive" materials</div>
+          <canvas id="chart-mat-exp" height="150"></canvas>
+          <div class="donut-legend" id="leg-mat"></div>
+        </div>
+      </div>
+      <div class="ctx-note">New requests: transparent, fire-rated/fireproof, clay-based materials. Supply priority: local/EU pellet makers (e.g. Nanovia). Main purchase benefit: one-stop-shop with tested materials, fast availability, competitive pricing, and tech support.</div>
+    </div>
+  </div>
+</div>
+
+<!-- 20 ACT 01 -->
+<div class="slide slide-bg overlay-dark" style="--bg-url:url('https://www.caracol-am.com/wp-content/uploads/2023/10/Eidos-Software-Interface.jpg')">
+<div class="slide-spacer"></div>
+  <div class="s-label">20 · Act · 01 of 03</div>
+  <div class="big-n dim">01</div>
+  <h2 class="h2">Close the<br><span class="cyan">software gap fast</span></h2>
+  <p class="body">Eidos has the largest expectation gap of any category. Customers want it to work — not replace it. As the platform matures, scores can recover quickly. This is a race against churn.</p>
+</div>
+
+<!-- 21 ACT 02 -->
+<div class="slide slide-bg overlay-dark" style="--bg-url:url('https://www.caracol-am.com/wp-content/uploads/2023/11/3D-Printed-Industrial-Part.jpg')">
+<div class="slide-spacer"></div>
+  <div class="s-label">21 · Act · 02 of 03</div>
+  <div class="big-n dim">02</div>
+  <h2 class="h2">Sell the value,<br><span class="cyan">not just the machine</span></h2>
+  <p class="body">Support and reputation are why customers chose us — yet price fairness rates 4.2/7. The gap is in communication, not product. ROI docs, case studies, and TCO narratives can shift perception. Refocus targeting on customers with the scale and maturity to realize LFAM ROI.</p>
+</div>
+
+<!-- 22 ACT 03 -->
+<div class="slide slide-bg overlay-dark" style="--bg-url:url('https://www.caracol-am.com/wp-content/uploads/2023/06/Caracol-Printing-Process.jpg')">
+<div class="slide-spacer"></div>
+  <div class="s-label">22 · Act · 03 of 03</div>
+  <div class="big-n dim">03</div>
+  <h2 class="h2">Activate materials<br><span class="cyan">as a growth channel</span></h2>
+  <p class="body">17 of 19 customers already buy from us. Surface new material developments proactively. Be transparent on pricing rationale. Protects against third-party sourcing and deepens the one-stop-shop relationship.</p>
+</div>
+
+<!-- 23 CONCLUSION -->
+<div class="slide slide-bg overlay-dark" style="--bg-url:url('https://www.caracol-am.com/wp-content/uploads/2023/03/Caracol-Heron-AM-Hero.jpg')">
+<div class="slide-spacer"></div>
+  <div class="s-label">23 · Conclusion</div>
+  <h2 class="h2">Three<br><span class="cyan">conclusions</span></h2>
+  <div class="concl-grid">
+    <div class="concl-card">
+      <div class="concl-title">Software maturity is a gap to close quickly</div>
+      <p class="concl-txt">Eidos shows the largest expectation gap, but how-to requests and feature asks signal genuine engagement. As the platform matures and training expands, satisfaction scores have strong room to recover.</p>
+    </div>
+    <div class="concl-card">
+      <div class="concl-title">Stronger value selling could shift price perception</div>
+      <p class="concl-txt">The challenge stems from customer fit misalignment and limited understanding of LFAM complexity. The value is there — it isn't translated into a clear customer proposition. ROI docs and TCO narratives can close this gap.</p>
+    </div>
+    <div class="concl-card">
+      <div class="concl-title">Materials represent an underleveraged growth channel</div>
+      <p class="concl-txt">17/19 customers already purchase materials from Caracol. A proactive materials communication approach reinforces one-stop-shop positioning while reducing third-party sourcing risk.</p>
+    </div>
+  </div>
+</div>
+
+<!-- 24 END -->
+<div class="slide">
+<div class="slide-spacer"></div>
+  <div class="cover-rule"></div>
+  <div class="s-label">Caracol AM · Marketing · May 2026 · Confidential</div>
+  <h1 class="h1"><strong>Three gaps.<br>One direction.</strong><br><span class="cyan">Let's move.</span></h1>
+  <div class="stat-row glass">
+    <div><span class="stat-n">25</span><span class="stat-l">Slides</span></div>
+    <div><span class="stat-n">3</span><span class="stat-l">Actions</span></div>
+    <div><span class="stat-n">1</span><span class="stat-l">Direction</span></div>
+  </div>
+</div>
+
+</div>
+<button class="nav-btn" id="btnPrev" onclick="go(-1)" disabled>←</button>
+<button class="nav-btn" id="btnNext" onclick="go(1)">→</button>
+
+<script>
+/* ─── Chart.js global defaults ─── */
+Chart.defaults.color='rgba(255,255,255,0.38)';
+Chart.defaults.borderColor='rgba(255,255,255,0.06)';
+Chart.defaults.font.family="'Switzer', sans-serif";
+Chart.defaults.font.size=9;
+
+const CY='#00E5CC', RD='#FF3B3B', AM='#F5A623';
+const CY2='rgba(0,229,204,0.45)', RD2='rgba(255,59,59,0.65)', DIM='rgba(255,255,255,0.18)';
+const ts={color:'rgba(255,255,255,0.35)',font:{size:9,family:"'Switzer',sans-serif"}};
+const gs={color:'rgba(255,255,255,0.06)'};
+const noG={display:false}, noL={display:false};
+const groupOpts=(yl)=>({
+  responsive:true,
+  plugins:{legend:{display:true,labels:{color:'rgba(255,255,255,0.35)',boxWidth:8,font:{size:8}}}},
+  scales:{
+    x:{ticks:{...ts,font:{size:8}},grid:noG},
+    y:{min:0,max:yl||7,ticks:ts,grid:gs}
+  }
+});
+
+const inited={};
+function mkChart(id,cfg){if(inited[id])return;const el=document.getElementById(id);if(!el)return;inited[id]=new Chart(el,cfg);}
+
+function mkLegend(id,labels,colors){
+  const el=document.getElementById(id);if(!el)return;
+  el.innerHTML=labels.map((l,i)=>`<div class="d-leg"><span class="d-dot" style="background:${colors[i]}"></span>${l}</div>`).join('');
+}
+
+function buildChartsIn(panel){
+  /* ROLE */
+  if(panel.querySelector('#chart-role')){
+    const rc=[CY,'rgba(0,229,204,0.5)','rgba(0,229,204,0.3)',DIM,'rgba(255,255,255,0.1)'];
+    mkChart('chart-role',{type:'doughnut',data:{labels:['Eng & Ops','Leadership','R&D','Commercial','Lab'],datasets:[{data:[37,27,16,10,10],backgroundColor:rc,borderWidth:0,hoverOffset:3}]},options:{responsive:true,cutout:'68%',plugins:{legend:noL,tooltip:{callbacks:{label:c=>`${c.label}: ${c.raw}%`}}}}});
+    mkLegend('leg-role',['Eng & Ops 37%','Leadership 27%','R&D 16%','Commercial 10%','Lab 10%'],rc);
+  }
+  if(panel.querySelector('#chart-ind')){
+    const ic=[CY,AM,RD,DIM,'rgba(255,255,255,0.1)'];
+    mkChart('chart-ind',{type:'doughnut',data:{labels:['Creative','Automotive','Industrial','Marine','Other'],datasets:[{data:[27,21,21,11,20],backgroundColor:ic,borderWidth:0,hoverOffset:3}]},options:{responsive:true,cutout:'68%',plugins:{legend:noL,tooltip:{callbacks:{label:c=>`${c.label}: ${c.raw}%`}}}}});
+    mkLegend('leg-ind',['Creative 27%','Automotive 21%','Industrial 21%','Marine 11%','Other 20%'],ic);
+  }
+  /* BRAND */
+  if(panel.querySelector('#chart-brand')){
+    mkChart('chart-brand',{type:'bar',data:{labels:['CEAD','Massivit','Thermwood','WASP','Breton','Belotti','CMS','Massive Dim.','Titan/3DS','REV3RD','Yizumi','Krauss Maffei','Dyze Design'],datasets:[{data:[58,53,37,37,26,26,26,26,26,16,11,11,11],backgroundColor:ctx=>ctx.dataIndex<2?CY:ctx.dataIndex<4?CY2:DIM,borderRadius:3,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,plugins:{legend:noL,tooltip:{callbacks:{label:c=>`${c.raw}% familiarity`}}},scales:{x:{ticks:{...ts,callback:v=>v+'%'},grid:gs,max:65},y:{ticks:{...ts,font:{size:8}},grid:noG}}}});
+  }
+  /* NPS dist */
+  if(panel.querySelector('#chart-nps-dist')){
+    const nc=['#FF3B3B','#FF3B3B','#FF3B3B','#FF3B3B','#FF3B3B','#FF3B3B','rgba(255,255,255,0.22)','rgba(255,255,255,0.22)',CY,CY];
+    mkChart('chart-nps-dist',{type:'bar',data:{labels:['1','2','3','4','5','6','7','8','9','10'],datasets:[{data:[2,0,4,1,0,0,3,5,2,2],backgroundColor:nc,borderRadius:3,borderSkipped:false}]},options:{responsive:true,plugins:{legend:noL,tooltip:{callbacks:{label:c=>`${c.raw} respondent${c.raw!==1?'s':''}`}}},scales:{x:{ticks:ts,grid:noG},y:{ticks:{...ts,stepSize:1},grid:gs}}}});
+  }
+  /* NPS donut */
+  if(panel.querySelector('#chart-nps-seg')){
+    const ns=[RD,'rgba(255,255,255,0.2)',CY];
+    mkChart('chart-nps-seg',{type:'doughnut',data:{labels:['Detractors 37%','Passives 42%','Promoters 21%'],datasets:[{data:[37,42,21],backgroundColor:ns,borderWidth:0,hoverOffset:3}]},options:{responsive:true,cutout:'65%',plugins:{legend:noL,tooltip:{callbacks:{label:c=>`${c.label}`}}}}});
+    mkLegend('leg-nps',['Detractors 37%','Passives 42%','Promoters 21%'],ns);
+  }
+  /* DRIVERS vs IMPROVEMENTS */
+  if(panel.querySelector('#chart-drv-imp')){
+    mkChart('chart-drv-imp',{type:'bar',data:{labels:['Support/Service','Reputation','Materials','Smart Sensing','Flexibility'],datasets:[{label:'Purchase Driver %',data:[29,17,14,0,10],backgroundColor:CY2,borderRadius:3,borderSkipped:false},{label:'Improvement Request %',data:[13,0,11,25,16],backgroundColor:RD2,borderRadius:3,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{display:true,labels:{color:'rgba(255,255,255,0.38)',boxWidth:9,font:{size:8}}}},scales:{x:{ticks:ts,grid:noG},y:{ticks:{...ts,callback:v=>v+'%'},grid:gs}}}});
+  }
+  /* PRICE */
+  if(panel.querySelector('#chart-price')){
+    mkChart('chart-price',{type:'bar',data:{labels:['LFAM Price\nImportance','HERON Price\nFairness'],datasets:[{data:[6.11,4.21],backgroundColor:[DIM,AM],borderRadius:6,borderSkipped:false,barThickness:55}]},options:{responsive:true,plugins:{legend:noL,tooltip:{callbacks:{label:c=>`Score: ${c.raw}/7`}}},scales:{x:{ticks:ts,grid:noG},y:{min:0,max:7,ticks:ts,grid:gs}}}});
+  }
+  /* SYSTEM FULL */
+  if(panel.querySelector('#chart-sys-full')){
+    mkChart('chart-sys-full',{type:'bar',data:{labels:['Productivity','Part Quality','Print Vol','Reliability','Design Flex','Ease of Use','Post-Process','Maintenance','Safety'],datasets:[{label:'Importance',data:[5.9,6.3,5.5,6.7,6.2,5.8,5.6,5.7,6.1],backgroundColor:CY2,borderRadius:[3,3,0,0],borderSkipped:false},{label:'Satisfaction',data:[4.6,3.7,4.2,3.7,3.4,4.1,3.8,4.2,5.0],backgroundColor:RD2,borderRadius:[3,3,0,0],borderSkipped:false}]},options:groupOpts(7)});
+  }
+  /* USABILITY */
+  if(panel.querySelector('#chart-usab')){
+    mkChart('chart-usab',{type:'bar',data:{labels:['Ease of Use','Post-Processing','Easy Maintenance','Operator Safety'],datasets:[{label:'Importance',data:[5.8,5.6,5.7,6.1],backgroundColor:CY2,borderRadius:[3,3,0,0],borderSkipped:false},{label:'Satisfaction',data:[4.1,3.8,4.2,5.0],backgroundColor:RD2,borderRadius:[3,3,0,0],borderSkipped:false}]},options:groupOpts(7)});
+  }
+  /* SOFTWARE */
+  if(panel.querySelector('#chart-soft')){
+    mkChart('chart-soft',{type:'bar',data:{labels:['Interoperability','Seamless Workflow','Remote Monitor','Process Monitor','Auto Workflow'],datasets:[{label:'Importance',data:[5.4,5.9,5.2,5.35,5.9],backgroundColor:CY2,borderRadius:[3,3,0,0],borderSkipped:false},{label:'Satisfaction',data:[2.9,3.0,2.8,2.44,3.0],backgroundColor:RD2,borderRadius:[3,3,0,0],borderSkipped:false}]},options:{...groupOpts(7),plugins:{legend:noL}}});
+  }
+  /* EIDOS ASKS */
+  if(panel.querySelector('#chart-eidos')){
+    mkChart('chart-eidos',{type:'bar',data:{labels:['How-to support','Issue tickets','Smart-sensing','User-friendly UI'],datasets:[{data:[11,11,11,6],backgroundColor:[RD,RD2,AM,CY2],borderRadius:5,borderSkipped:false}]},options:{responsive:true,plugins:{legend:noL,tooltip:{callbacks:{label:c=>`${c.raw} / 19 respondents`}}},scales:{x:{ticks:{...ts,font:{size:9}},grid:noG},y:{min:0,max:19,ticks:ts,grid:gs}}}});
+  }
+  /* SUPPORT + SCALABILITY */
+  if(panel.querySelector('#chart-supp-scale')){
+    mkChart('chart-supp-scale',{type:'bar',data:{labels:['Support','Training','Customization','Scalability','Sustainability'],datasets:[{label:'Importance',data:[6.6,5.9,5.5,5.4,5.3],backgroundColor:CY2,borderRadius:[3,3,0,0],borderSkipped:false},{label:'Satisfaction',data:[4.84,4.2,3.6,3.5,3.64],backgroundColor:RD2,borderRadius:[3,3,0,0],borderSkipped:false}]},options:groupOpts(7)});
+  }
+  /* PRIORITY */
+  if(panel.querySelector('#chart-priority')){
+    const pc=[RD,RD,RD,RD2,RD2,'rgba(255,255,255,0.3)','rgba(255,255,255,0.25)','rgba(255,255,255,0.2)','rgba(255,255,255,0.18)','rgba(255,255,255,0.15)','rgba(255,255,255,0.12)'];
+    mkChart('chart-priority',{type:'bar',data:{labels:['Reliability','Process Mon.','Auto Workflow','Design Flex','Part Quality','Repeatability','Modular Plt.','Post-Process','Support','Training','Easy Maint.'],datasets:[{data:[2.91,2.91,2.90,2.78,2.56,2.35,2.22,2.18,1.76,1.68,1.59],backgroundColor:pc,borderRadius:3,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,plugins:{legend:noL,tooltip:{callbacks:{label:c=>`Gap: ${c.raw}`}}},scales:{x:{ticks:{...ts,font:{size:8}},grid:gs,max:3.2},y:{ticks:{...ts,font:{size:8}},grid:noG}}}});
+  }
+  /* USAGE */
+  if(panel.querySelector('#chart-usage')){
+    mkChart('chart-usage',{type:'bar',data:{labels:['<180h','181–360h','361–540h','>540h'],datasets:[{data:[3.5,4.5,5.3,5.0],backgroundColor:[RD,AM,CY,CY2],borderRadius:6,borderSkipped:false,barThickness:42}]},options:{responsive:true,plugins:{legend:noL,tooltip:{callbacks:{label:c=>`Avg satisfaction: ${c.raw}/7`}}},scales:{x:{ticks:ts,grid:noG},y:{min:0,max:7,ticks:ts,grid:gs}}}});
+  }
+  /* SEGMENTS */
+  if(panel.querySelector('#chart-seg')){
+    mkChart('chart-seg',{type:'bar',data:{labels:['Satisfaction /7','NPS /10','Training sat. /7','Support sat. /7'],datasets:[{label:'Decision Makers',data:[3.9,6.3,3.5,4.3],backgroundColor:DIM,borderRadius:3,borderSkipped:false},{label:'Technical Users',data:[4.3,5.5,5.7,6.0],backgroundColor:CY2,borderRadius:3,borderSkipped:false}]},options:{responsive:true,plugins:{legend:{display:true,labels:{color:'rgba(255,255,255,0.38)',boxWidth:9,font:{size:8}}}},scales:{x:{ticks:ts,grid:noG},y:{min:0,max:7,ticks:ts,grid:gs}}}});
+  }
+  /* MATERIALS PRICE */
+  if(panel.querySelector('#chart-mat-price')){
+    mkChart('chart-mat-price',{type:'bar',data:{labels:['PC-CF','PEI','ABS-CF','PP-GF'],datasets:[{label:'Desired €/kg',data:[14.65,35,9.85,1.60],backgroundColor:CY2,borderRadius:[3,3,0,0],borderSkipped:false},{label:'Actual €/kg',data:[19.38,50,15.86,3.38],backgroundColor:RD2,borderRadius:[3,3,0,0],borderSkipped:false}]},options:{responsive:true,plugins:{legend:{display:true,labels:{color:'rgba(255,255,255,0.35)',boxWidth:8,font:{size:8}}}},scales:{x:{ticks:{...ts,font:{size:8}},grid:noG},y:{ticks:ts,grid:gs}}}});
+  }
+  /* MATERIALS TOO EXP */
+  if(panel.querySelector('#chart-mat-exp')){
+    const mc=[RD,AM,CY2,DIM,'rgba(255,255,255,0.1)'];
+    mkChart('chart-mat-exp',{type:'doughnut',data:{labels:['PC CF','PEI CF','rPETG GF','ABS CF','ABS GF'],datasets:[{data:[25,25,21,17,12],backgroundColor:mc,borderWidth:0,hoverOffset:3}]},options:{responsive:true,cutout:'60%',plugins:{legend:noL,tooltip:{callbacks:{label:c=>`${c.label}: ${c.raw}%`}}}}});
+    mkLegend('leg-mat',['PC CF 25%','PEI CF 25%','rPETG GF 21%','ABS CF 17%','ABS GF 12%'],mc);
+  }
+  panel.querySelectorAll('.ub-fill[data-w]').forEach(f=>{
+    setTimeout(()=>{ f.style.width=f.dataset.w+'%'; },100);
+  });
+}
+
+const slides=document.querySelectorAll('.slide');
+const total=slides.length;
+let cur=0;
+
+function show(n){
+  slides[cur].classList.remove('active');
+  cur=n;
+  slides[cur].classList.add('active');
+  const pct=cur===0?5:Math.round((cur/(total-1))*100);
+  document.getElementById('progress').style.width=pct+'%';
+  document.getElementById('counter').textContent=(cur<9?'0':'')+(cur+1)+' / '+total;
+  document.getElementById('btnPrev').disabled=cur===0;
+  document.getElementById('btnNext').disabled=cur===total-1;
+  if(cur>0)document.getElementById('hint').style.opacity='0';
+  // Reset scroll position when changing slides
+  slides[cur].scrollTop = 0;
+  setTimeout(()=>runSlideAnimations(slides[cur]),120);
+}
+function go(dir){const n=cur+dir;if(n>=0&&n<total)show(n);}
+
+function toggleCtx(btn){
+  const wasOpen=btn.classList.contains('open');
+  btn.classList.toggle('open');
+  const panel=btn.nextElementSibling;
+  panel.classList.toggle('open');
+  if(!wasOpen){
+    buildChartsIn(panel);
+    // Scroll the slide to show the panel after it opens
+    setTimeout(function(){
+      var slide = btn.closest('.slide');
+      if(slide){
+        // scroll the slide element itself
+        btn.scrollIntoView({behavior:'smooth', block:'nearest'});
+        setTimeout(function(){
+          slide.scrollTop = slide.scrollHeight;
+        }, 80);
+      }
+    }, 60);
+  } else {
+    // Closing: scroll back to top
+    var slide = btn.closest('.slide');
+    if(slide){ slide.scrollTop = 0; }
+  }
+}
+
+function countUp(el){
+  const target=parseFloat(el.dataset.target);
+  const suffix=el.dataset.suffix||'';
+  const prefix=el.dataset.prefix||'';
+  const decimals=parseInt(el.dataset.decimals||'0');
+  const integer=el.dataset.integer;
+  const start=performance.now();
+  function step(now){
+    const t=Math.min((now-start)/1000,1);
+    const ease=1-Math.pow(1-t,3);
+    const val=target*ease;
+    el.textContent=prefix+(integer?Math.round(val):val.toFixed(decimals))+suffix;
+    if(t<1)requestAnimationFrame(step);
+    else el.textContent=prefix+(integer?Math.round(target):target.toFixed(decimals))+suffix;
+  }
+  requestAnimationFrame(step);
+}
+
+function animateBars(slide){
+  slide.querySelectorAll('.gap-fill[data-width],.comp-fill[data-width]').forEach((f,i)=>{
+    setTimeout(()=>{f.style.width=f.dataset.width;},i*80);
+  });
+}
+
+function runSlideAnimations(slide){
+  slide.querySelectorAll('.count-num').forEach(el=>{
+    el.textContent=(el.dataset.prefix||'')+'0'+(el.dataset.suffix||'');
+    countUp(el);
+  });
+  animateBars(slide);
+  const nps=slide.querySelector('.nps-row');
+  if(nps)nps.classList.add('animated');
+  slide.querySelectorAll('.pri-row').forEach(r=>r.classList.add('visible'));
+}
+
+runSlideAnimations(slides[0]);
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key==='ArrowDown')go(1);
+  if(e.key==='ArrowLeft'||e.key==='ArrowUp')go(-1);
+});
+
+let tx=0,ty=0;
+document.getElementById('deck').addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+document.getElementById('deck').addEventListener('touchend',e=>{
+  const dx=tx-e.changedTouches[0].clientX;
+  const dy=Math.abs(ty-(e.changedTouches[0].clientY));
+  // Only swipe if horizontal motion dominates (not a scroll)
+  if(dy<30){
+    if(dx>50)go(1);else if(dx<-50)go(-1);
+  }
+},{passive:true});
+</script>
+</body>
+</html>
